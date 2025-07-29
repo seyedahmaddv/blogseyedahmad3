@@ -9,7 +9,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-8">
         <section className="max-w-2xl w-full text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">به وبلاگ من خوش آمدید!</h2>
+          <h2 className="text-3xl font-bold mb-2">به وبلاگ من خوش آمدید</h2>
           <p className="text-gray-600 mb-4">اینجا می‌توانید نوشته‌های من را بخوانید، نظر دهید و با من در ارتباط باشید.</p>
           <div className="flex justify-center gap-4 mt-4">
             <Link href="/about" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">درباره ما</Link>
