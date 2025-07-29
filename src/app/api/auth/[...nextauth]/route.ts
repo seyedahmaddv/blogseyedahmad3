@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   providers: [
     CredentialsProvider({
@@ -35,14 +35,14 @@ const authOptions = {
     error: "/auth/error",
   },
   callbacks: {
-    async session({ session, token, user }) {
+    async session({ session, token, user }: any) {
       if (token && session.user) {
         session.user.id = token.sub;
         session.user.role = token.role;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: any) {
       if (user) {
         token.role = user.role;
       }
