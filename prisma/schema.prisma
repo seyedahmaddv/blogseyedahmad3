@@ -11,9 +11,7 @@ generator client {
 // prisma/schema.prisma
 datasource db {
   provider  = "postgresql"
-  url  	    = env("STORAGE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("STORAGE_URL_UNPOOLED")
+  url  	    = env("DATABASE_URL")
 }
 
 model Account {
