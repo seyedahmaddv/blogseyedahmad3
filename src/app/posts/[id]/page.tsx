@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 async function getPost(id: string) {
   let apiUrl = `/api/posts/${id}`;
@@ -18,7 +19,7 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 bg-white rounded-lg shadow mt-8" dir="rtl">
       {post.coverUrl && (
-        <img src={post.coverUrl} alt="کاور پست" className="w-full rounded-lg mb-6 max-h-80 object-cover" />
+        <Image src={post.coverUrl} alt="کاور پست" className="w-full rounded-lg mb-6 max-h-80 object-cover" />
       )}
       <h1 className="text-3xl font-bold mb-4 text-right text-blue-700">{post.title}</h1>
       <div className="flex flex-wrap gap-2 text-xs text-gray-400 mb-4 text-right">

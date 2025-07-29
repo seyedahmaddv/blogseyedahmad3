@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import Image from 'next/image';
 
 interface Post {
   id: number;
@@ -41,7 +42,7 @@ export default async function PostsPage() {
           {posts.map((post: Post) => (
             <div key={post.id} className="bg-white border rounded-lg shadow hover:shadow-lg transition flex flex-col">
               {post.coverUrl && (
-                <img src={post.coverUrl} alt={post.title} className="w-full h-40 object-cover rounded-t-lg" />
+                <Image src={post.coverUrl} alt={post.title} className="w-full h-40 object-cover rounded-t-lg" />
               )}
               <div className="p-4 flex flex-col flex-1">
                 <h2 className="text-lg font-semibold mb-2 text-right">{post.title}</h2>
