@@ -1,6 +1,20 @@
 import React from "react";
 import Image from "next/image";
 
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  author?: {
+    name?: string;
+    email?: string;
+  };
+  coverUrl?: string;
+  createdAt: string;
+}
+
 async function getPost(id: string) {
   let apiUrl = `/api/posts/${id}`;
   if (typeof window === "undefined") {
@@ -14,21 +28,32 @@ async function getPost(id: string) {
 }
 
 export default async function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const post = await getPost(id);
-  return (
-    <div className="max-w-2xl mx-auto py-8 px-4 bg-white rounded-lg shadow mt-8" dir="rtl">
-      {post.coverUrl && (
-        <Image src={post.coverUrl} alt="کاور پست" className="w-full rounded-lg mb-6 max-h-80 object-cover" />
-      )}
-      <h1 className="text-3xl font-bold mb-4 text-right text-blue-700">{post.title}</h1>
-      <div className="flex flex-wrap gap-2 text-xs text-gray-400 mb-4 text-right">
-        <span>{post.author || 'ناشناس'}</span>
-        <span>•</span>
-        <span>{new Date(post.createdAt).toLocaleDateString('fa-IR')}</span>
+  try {
+    const { id } = await params;
+    const post: Post = await getPost(id);
+    return (
+      <div className="max-w-2xl mx-auto py-8 px-4 bg-white rounded-lg shadow mt-8" dir="rtl">
+        {post.coverUrl && (
+          <Image src={post.coverUrl} alt="کاور پست" className="w-full rounded-lg mb-6 max-h-80 object-cover" />
+        )}
+        <h1 className="text-3xl font-bold mb-4 text-right text-blue-700">{post.title}</h1>
+        <div className="flex flex-wrap gap-2 text-xs text-gray-400 mb-4 text-right">
+          <span>{post.author?.name || post.author?.email || 'ناشناس'}</span>
+          <span>•</span>
+          <span>{new Date(post.createdAt).toLocaleDateString('fa-IR')}</span>
+        </div>
+        {post.excerpt && <div className="mb-4 text-gray-600 text-right italic">{post.excerpt}</div>}
+        <div className="prose prose-lg prose-slate rtl text-right max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
       </div>
-      {post.excerpt && <div className="mb-4 text-gray-600 text-right italic">{post.excerpt}</div>}
-      <div className="prose prose-lg prose-slate rtl text-right max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error loading post:', error);
+    return (
+      <div className="max-w-2xl mx-auto py-8 px-4 bg-white rounded-lg shadow mt-8" dir="rtl">
+        <div className="text-center text-red-500">
+          <p>خطا در بارگذاری پست. لطفاً دوباره تلاش کنید.</p>
+        </div>
+      </div>
+    );
+  }
 }
