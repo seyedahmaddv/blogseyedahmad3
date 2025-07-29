@@ -20,8 +20,7 @@ export async function GET() {
         connectionTest: result,
         postCount,
         userCount,
-        databaseUrl: process.env.STORAGE_URL ? 'Set' : 'Not set',
-        oldDatabaseUrl: process.env.DATABASE_URL ? 'Set (old)' : 'Not set'
+        databaseUrl: process.env.DATABASE_URL ? 'Set' : 'Not set'
       }
     });
   } catch (error) {
@@ -31,8 +30,7 @@ export async function GET() {
       message: 'Database connection failed',
       timestamp: new Date().toISOString(),
       error: error instanceof Error ? error.message : 'Unknown error',
-      databaseUrl: process.env.STORAGE_URL ? 'Set' : 'Not set',
-      oldDatabaseUrl: process.env.DATABASE_URL ? 'Set (old)' : 'Not set'
+      databaseUrl: process.env.DATABASE_URL ? 'Set' : 'Not set'
     }, { status: 500 });
   }
 } 
