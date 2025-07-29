@@ -68,8 +68,8 @@ function ContactForm({ onSent }: { onSent: () => void }) {
         setSuccess(false);
         onSent();
       }, 1500);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطای نامشخص");
     } finally {
       setLoading(false);
     }

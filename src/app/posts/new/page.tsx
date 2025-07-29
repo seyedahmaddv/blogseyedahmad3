@@ -36,8 +36,8 @@ export default function NewPostPage() {
       if (!res.ok) throw new Error("خطا در ثبت پست");
       setSuccess(true);
       setForm({ title: "", slug: "", content: "", excerpt: "", author: "", coverUrl: "" });
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطای نامشخص");
     } finally {
       setLoading(false);
     }

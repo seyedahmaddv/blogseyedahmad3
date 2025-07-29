@@ -35,14 +35,14 @@ const authOptions = {
     error: "/auth/error",
   },
   callbacks: {
-    async session({ session, token, user }: any) {
+    async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.sub;
         session.user.role = token.role;
       }
       return session;
     },
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
       }

@@ -1,6 +1,17 @@
 import Link from 'next/link';
 import React from 'react';
 
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  author?: string;
+  coverUrl?: string;
+  createdAt: string;
+}
+
 async function getPosts() {
   let apiUrl = "/api/posts";
   if (typeof window === "undefined") {
@@ -14,7 +25,7 @@ async function getPosts() {
 }
 
 export default async function PostsPage() {
-  const posts = await getPosts();
+  const posts: Post[] = await getPosts();
   return (
     <main className="container mx-auto p-4 min-h-screen bg-gray-50">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
@@ -27,7 +38,7 @@ export default async function PostsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
+          {posts.map((post: Post) => (
             <div key={post.id} className="bg-white border rounded-lg shadow hover:shadow-lg transition flex flex-col">
               {post.coverUrl && (
                 <img src={post.coverUrl} alt={post.title} className="w-full h-40 object-cover rounded-t-lg" />
