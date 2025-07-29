@@ -10,6 +10,9 @@ export default function Header() {
       <header className="w-full py-4 px-8 bg-white shadow flex justify-between items-center">
         <h1 className="text-2xl font-bold text-blue-700">وبلاگ سید احمد</h1>
         <nav className="flex gap-4">
+          <Link href="/" className="text-blue-600 hover:underline">خانه</Link>
+          <Link href="/posts" className="text-blue-600 hover:underline">پست‌ها</Link>
+          <Link href="/about" className="text-blue-600 hover:underline">درباره ما</Link>
           <Link href="/dashboard" className="text-blue-600 hover:underline">داشبورد</Link>
           <Link href="/auth/signin" className="text-blue-600 hover:underline">ورود</Link>
           <Link href="/auth/register" className="text-blue-600 hover:underline">ثبت‌نام</Link>
