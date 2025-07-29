@@ -1,7 +1,8 @@
 'use client'
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function ErrorPage() {
+function ErrorContent() {
   const params = useSearchParams();
   const error = params.get("error");
   return (
@@ -10,5 +11,13 @@ export default function ErrorPage() {
       <p className="text-red-500">{error || "مشکلی پیش آمده است. لطفاً دوباره تلاش کنید."}</p>
       <a href="/auth/signin" className="mt-4 text-blue-600 underline">بازگشت به ورود</a>
     </div>
+  );
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense fallback={<div className="flex flex-col items-center justify-center min-h-screen py-2">در حال بارگذاری...</div>}>
+      <ErrorContent />
+    </Suspense>
   );
 } 

@@ -35,20 +35,20 @@ const authOptions: NextAuthOptions = {
     error: "/auth/error",
   },
   callbacks: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line
     async session({ session, token }) {
       if (token && session.user) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         (session.user as any).id = token.sub;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         (session.user as any).role = token.role;
       }
       return session;
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line
     async jwt({ token, user }) {
       if (user) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         (token as any).role = (user as any).role;
       }
       return token;
