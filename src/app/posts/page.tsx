@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
 interface Post {
   id: number;
@@ -18,13 +18,7 @@ interface Post {
 
 async function getPosts() {
   try {
-    let apiUrl = "/api/posts";
-    if (typeof window === "undefined") {
-      apiUrl = process.env.NEXT_PUBLIC_BASE_URL
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
-        : "http://localhost:3000/api/posts";
-    }
-    const res = await fetch(apiUrl, { cache: "no-store" });
+    const res = await fetch("/api/posts", { next: { revalidate: 60 } });
     if (!res.ok) {
       console.error('Failed to fetch posts:', res.status, res.statusText);
       throw new Error('Failed to fetch posts');
@@ -59,18 +53,16 @@ export default async function PostsPage() {
                     src={post.coverUrl} 
                     alt={post.title} 
                     className="w-full h-40 object-cover rounded-t-lg"
-                    width={400}
-                    height={200}
                   />
                 )}
                 <div className="p-4 flex flex-col flex-1">
                   <h2 className="text-lg font-semibold mb-2 text-right">{post.title}</h2>
                   {post.excerpt && (
-                    <p className="text-gray-600 mb-3 text-right line-clamp-3">{post.excerpt}</p>
+                    <p className="text-gray-600 mb-3 text-right overflow-hidden text-ellipsis">{post.excerpt}</p>
                   )}
                   <div className="flex justify-between items-center text-xs text-gray-500 mb-2">
                     <span>{post.author?.name || post.author?.email || 'ناشناس'}</span>
-                    <span>{new Date(post.createdAt).toLocaleDateString('fa-IR')}</span>
+                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                   </div>
                   <Link
                     href={`/posts/${post.id}`}
@@ -98,12 +90,12 @@ export default async function PostsPage() {
               <p>• تلاش مجدد در چند دقیقه</p>
               <p>• تماس با پشتیبانی در صورت تداوم مشکل</p>
             </div>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            <Link 
+              href="/posts"
+              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition inline-block"
             >
               تلاش مجدد
-            </button>
+            </Link>
           </div>
         </div>
       </main>
