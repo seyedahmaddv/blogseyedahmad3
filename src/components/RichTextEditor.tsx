@@ -3,6 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlock from '@tiptap/extension-code-block';
 import Highlight from '@tiptap/extension-highlight';
+import { useEffect, useState } from 'react';
 
 interface RichTextEditorProps {
   value: string;
@@ -10,6 +11,12 @@ interface RichTextEditorProps {
 }
 
 export default function RichTextEditor({ value, onChange }: RichTextEditorProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -20,10 +27,20 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    immediatelyRender: false,
   });
 
-  if (!editor) {
-    return null;
+  if (!mounted || !editor) {
+    return (
+      <div className="border rounded-lg overflow-hidden">
+        <div className="bg-gray-50 p-2 border-b flex flex-wrap gap-1">
+          <div className="p-2 text-gray-400">Loading editor...</div>
+        </div>
+        <div className="p-4 min-h-40 bg-gray-50">
+          <div className="text-gray-400">Editor is loading...</div>
+        </div>
+      </div>
+    );
   }
 
   return (
