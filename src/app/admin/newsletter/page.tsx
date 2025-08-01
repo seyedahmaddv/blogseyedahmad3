@@ -23,9 +23,29 @@ export default async function NewsletterPage() {
     redirect('/dashboard');
   }
 
-  // Fetch newsletter data - temporarily disabled
-  const subscribers: any[] = [];
-  const campaigns: any[] = [];
+  // Fetch newsletter data
+  const [subscribers, campaigns] = await Promise.all([
+    (prisma as any).newsletter.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        subscribed: true,
+        createdAt: true,
+      }
+    }),
+    (prisma as any).newsletterCampaign.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        sentAt: true,
+        createdAt: true,
+      }
+    })
+  ]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

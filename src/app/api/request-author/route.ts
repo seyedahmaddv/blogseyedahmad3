@@ -17,28 +17,27 @@ export async function POST(request: Request) {
       select: { role: true }
     });
 
-    if (user?.role !== 'VIEWER') {
+    if (user?.role !== ('VIEWER' as any)) {
       return NextResponse.json({ error: 'فقط کاربران عمومی می‌توانند درخواست نویسنده شدن دهند' }, { status: 400 });
     }
 
-    // Check if request already exists - temporarily disabled
-    // const existingRequest = await prisma.authorRequest.findUnique({
-    //   where: { userId }
-    // });
+    // Check if request already exists
+    const existingRequest = await (prisma as any).authorRequest.findUnique({
+      where: { userId }
+    });
 
-    // if (existingRequest) {
-    //   return NextResponse.json({ error: 'شما قبلاً درخواست داده‌اید' }, { status: 400 });
-    // }
+    if (existingRequest) {
+      return NextResponse.json({ error: 'شما قبلاً درخواست داده‌اید' }, { status: 400 });
+    }
 
-    // // Create author request
-    // await prisma.authorRequest.create({
-    //   data: {
-    //     userId,
-    //     status: 'PENDING',
-    //     message: 'درخواست تبدیل به نویسنده'
-    //   }
-    // });
-    console.log('Author request would be created for user:', userId);
+    // Create author request
+    await (prisma as any).authorRequest.create({
+      data: {
+        userId,
+        status: 'PENDING',
+        message: 'درخواست تبدیل به نویسنده'
+      }
+    });
 
     return NextResponse.json({
       message: 'درخواست شما با موفقیت ثبت شد. پس از بررسی توسط مدیر، نتیجه به شما اطلاع داده خواهد شد.'
@@ -61,21 +60,20 @@ export async function GET() {
       return NextResponse.json({ error: 'دسترسی غیرمجاز' }, { status: 403 });
     }
 
-    // const requests = await prisma.authorRequest.findMany({
-    //   include: {
-    //     user: {
-    //       select: {
-    //         id: true,
-    //         name: true,
-    //         email: true,
-    //         role: true,
-    //         createdAt: true
-    //       }
-    //     }
-    //   },
-    //   orderBy: { createdAt: 'desc' }
-    // });
-    const requests: any[] = [];
+    const requests = await (prisma as any).authorRequest.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            createdAt: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
     return NextResponse.json({ requests });
 

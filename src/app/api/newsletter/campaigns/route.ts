@@ -38,19 +38,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create campaign - temporarily disabled
-    // const campaign = await prisma.newsletterCampaign.create({
-    //   data: {
-    //     title,
-    //     content,
-    //     status: 'DRAFT',
-    //   },
-    // });
-    console.log('Campaign would be created:', { title, content });
+    // Create campaign
+    const campaign = await (prisma as any).newsletterCampaign.create({
+      data: {
+        title,
+        content,
+        status: 'DRAFT',
+      },
+    });
 
     return NextResponse.json({
       message: 'کمپین با موفقیت ایجاد شد',
-      campaign: { id: 1, title, content, status: 'DRAFT' }
+      campaign
     });
 
   } catch (error) {

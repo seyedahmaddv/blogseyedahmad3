@@ -14,34 +14,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find and update subscription - temporarily disabled
-    // const subscriber = await prisma.newsletter.findUnique({
-    //   where: { email },
-    // });
+    // Find and update subscription
+    const subscriber = await (prisma as any).newsletter.findUnique({
+      where: { email },
+    });
 
-    // if (!subscriber) {
-    //   return NextResponse.json(
-    //     { error: 'این ایمیل در خبرنامه ثبت نشده است' },
-    //     { status: 404 }
-    //   );
-    // }
+    if (!subscriber) {
+      return NextResponse.json(
+        { error: 'این ایمیل در خبرنامه ثبت نشده است' },
+        { status: 404 }
+      );
+    }
 
-    // if (!subscriber.subscribed) {
-    //   return NextResponse.json(
-    //     { error: 'این ایمیل قبلاً از خبرنامه خارج شده است' },
-    //     { status: 400 }
-    //   );
-    // }
+    if (!subscriber.subscribed) {
+      return NextResponse.json(
+        { error: 'این ایمیل قبلاً از خبرنامه خارج شده است' },
+        { status: 400 }
+      );
+    }
 
-    // // Unsubscribe
-    // await prisma.newsletter.update({
-    //   where: { email },
-    //   data: { 
-    //     subscribed: false,
-    //     updatedAt: new Date(),
-    //   },
-    // });
-    console.log('Newsletter unsubscription would be processed:', { email });
+    // Unsubscribe
+    await (prisma as any).newsletter.update({
+      where: { email },
+      data: { 
+        subscribed: false,
+        updatedAt: new Date(),
+      },
+    });
 
     return NextResponse.json({
       message: 'اشتراک شما از خبرنامه لغو شد'

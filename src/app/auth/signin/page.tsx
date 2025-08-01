@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SignInPage() {
+function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -74,13 +74,26 @@ export default function SignInPage() {
           {loading ? "در حال ورود..." : "ورود"}
         </button>
       </form>
-                   <p className="mt-4">
-               حساب کاربری ندارید؟{' '}
-               <Link href="/auth/register" className="text-blue-600 underline">ثبت‌نام</Link>
-             </p>
-             <p className="mt-2">
-               <Link href="/auth/forgot-password" className="text-blue-600 underline">فراموشی رمز عبور</Link>
-             </p>
+      <p className="mt-4">
+        حساب کاربری ندارید؟{' '}
+        <Link href="/auth/register" className="text-blue-600 underline">ثبت‌نام</Link>
+      </p>
+      <p className="mt-2">
+        <Link href="/auth/forgot-password" className="text-blue-600 underline">فراموشی رمز عبور</Link>
+      </p>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <p className="mt-4 text-gray-600">در حال بارگذاری...</p>
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 } 

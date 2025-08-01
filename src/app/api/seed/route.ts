@@ -26,7 +26,7 @@ export async function POST() {
         name: 'نویسنده نمونه',
         email: 'author@example.com',
         password: authorPassword,
-        role: 'AUTHOR'
+        role: 'AUTHOR' as any
       }
     });
 

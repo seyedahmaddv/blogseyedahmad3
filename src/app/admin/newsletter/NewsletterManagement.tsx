@@ -330,10 +330,10 @@ export default function NewsletterManagement({ subscribers, campaigns }: Newslet
                 <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
                   محتوای خبرنامه
                 </label>
-                <RichTextEditor
-                  value={newCampaign.content}
-                  onChange={(content) => setNewCampaign({ ...newCampaign, content })}
-                />
+                                  <RichTextEditor
+                    value={newCampaign.content}
+                    onChange={(content) => setNewCampaign({ ...newCampaign, content })}
+                  />
               </div>
 
               <div className="flex justify-end">

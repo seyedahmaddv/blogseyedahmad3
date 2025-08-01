@@ -23,8 +23,19 @@ export default async function ContactMessagesPage() {
     redirect('/dashboard');
   }
 
-  // Fetch contact messages - temporarily disabled
-  const messages: any[] = [];
+  // Fetch contact messages
+  const messages = await (prisma as any).contactMessage.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      subject: true,
+      message: true,
+      createdAt: true,
+      read: true,
+    }
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

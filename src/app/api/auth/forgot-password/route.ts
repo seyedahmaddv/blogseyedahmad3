@@ -32,21 +32,20 @@ export async function POST(request: Request) {
     const resetToken = crypto.randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-    // Save or update reset token - temporarily disabled
-    // await prisma.passwordReset.upsert({
-    //   where: { email },
-    //   update: {
-    //     token: resetToken,
-    //     expiresAt,
-    //     used: false,
-    //   },
-    //   create: {
-    //     email,
-    //     token: resetToken,
-    //     expiresAt,
-    //   },
-    // });
-    console.log('Password reset token would be saved:', { email, resetToken });
+    // Save or update reset token
+    await (prisma as any).passwordReset.upsert({
+      where: { email },
+      update: {
+        token: resetToken,
+        expiresAt,
+        used: false,
+      },
+      create: {
+        email,
+        token: resetToken,
+        expiresAt,
+      },
+    });
 
     // Send email
     const emailSent = await sendPasswordResetEmail(email, resetToken);

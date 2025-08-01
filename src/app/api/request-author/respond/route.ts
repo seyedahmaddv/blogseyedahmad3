@@ -17,34 +17,33 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'داده‌های نامعتبر' }, { status: 400 });
     }
 
-    // Get the author request - temporarily disabled
-    // const authorRequest = await prisma.authorRequest.findUnique({
-    //   where: { id: requestId },
-    //   include: { user: true }
-    // });
+    // Get the author request
+    const authorRequest = await (prisma as any).authorRequest.findUnique({
+      where: { id: requestId },
+      include: { user: true }
+    });
 
-    // if (!authorRequest) {
-    //   return NextResponse.json({ error: 'درخواست پیدا نشد' }, { status: 404 });
-    // }
+    if (!authorRequest) {
+      return NextResponse.json({ error: 'درخواست پیدا نشد' }, { status: 404 });
+    }
 
-    // if (authorRequest.status !== 'PENDING') {
-    //   return NextResponse.json({ error: 'این درخواست قبلاً پردازش شده است' }, { status: 400 });
-    // }
+    if (authorRequest.status !== 'PENDING') {
+      return NextResponse.json({ error: 'این درخواست قبلاً پردازش شده است' }, { status: 400 });
+    }
 
-    // // Update the request status
-    // await prisma.authorRequest.update({
-    //   where: { id: requestId },
-    //   data: { status: action === 'approve' ? 'APPROVED' : 'REJECTED' }
-    // });
+    // Update the request status
+    await (prisma as any).authorRequest.update({
+      where: { id: requestId },
+      data: { status: action === 'approve' ? 'APPROVED' : 'REJECTED' }
+    });
 
-    // // If approved, update user role to AUTHOR
-    // if (action === 'approve') {
-    //   await prisma.user.update({
-    //     where: { id: authorRequest.userId },
-    //     data: { role: 'AUTHOR' }
-    //   });
-    // }
-    console.log('Author request response would be processed:', { requestId, action });
+    // If approved, update user role to AUTHOR
+    if (action === 'approve') {
+      await prisma.user.update({
+        where: { id: authorRequest.userId },
+        data: { role: 'AUTHOR' as any }
+      });
+    }
 
     return NextResponse.json({
       message: `درخواست ${action === 'approve' ? 'تأیید' : 'رد'} شد`

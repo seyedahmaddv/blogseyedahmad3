@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -32,7 +32,8 @@ export async function PUT(
       );
     }
 
-    const messageId = parseInt(params.id);
+    const resolvedParams = await params;
+    const messageId = parseInt(resolvedParams.id);
     
     if (isNaN(messageId)) {
       return NextResponse.json(
@@ -41,16 +42,15 @@ export async function PUT(
       );
     }
 
-    // Update message as read - temporarily disabled
-    // const updatedMessage = await prisma.contactMessage.update({
-    //   where: { id: messageId },
-    //   data: { read: true },
-    // });
-    console.log('Message would be marked as read:', messageId);
+    // Update message as read
+    const updatedMessage = await (prisma as any).contactMessage.update({
+      where: { id: messageId },
+      data: { read: true },
+    });
 
     return NextResponse.json({
       message: 'پیام به عنوان خوانده شده علامت‌گذاری شد',
-      data: { id: messageId, read: true }
+      data: updatedMessage
     });
 
   } catch (error) {
