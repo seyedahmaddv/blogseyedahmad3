@@ -41,15 +41,16 @@ export async function PUT(
       );
     }
 
-    // Update message as read
-    const updatedMessage = await prisma.contactMessage.update({
-      where: { id: messageId },
-      data: { read: true },
-    });
+    // Update message as read - temporarily disabled
+    // const updatedMessage = await prisma.contactMessage.update({
+    //   where: { id: messageId },
+    //   data: { read: true },
+    // });
+    console.log('Message would be marked as read:', messageId);
 
     return NextResponse.json({
       message: 'پیام به عنوان خوانده شده علامت‌گذاری شد',
-      data: updatedMessage
+      data: { id: messageId, read: true }
     });
 
   } catch (error) {

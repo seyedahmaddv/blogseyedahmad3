@@ -13,8 +13,7 @@ export async function POST() {
         name: 'مدیر کل',
         email: 'admin@example.com',
         password: adminPassword,
-        role: 'ADMIN',
-        bio: 'مدیر کل وبلاگ'
+        role: 'ADMIN'
       }
     });
 
@@ -27,8 +26,7 @@ export async function POST() {
         name: 'نویسنده نمونه',
         email: 'author@example.com',
         password: authorPassword,
-        role: 'AUTHOR',
-        bio: 'نویسنده وبلاگ'
+        role: 'AUTHOR'
       }
     });
 

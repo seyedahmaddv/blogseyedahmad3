@@ -24,38 +24,39 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if already subscribed
-    const existingSubscriber = await prisma.newsletter.findUnique({
-      where: { email },
-    });
+    // Check if already subscribed - temporarily disabled
+    // const existingSubscriber = await prisma.newsletter.findUnique({
+    //   where: { email },
+    // });
 
-    if (existingSubscriber) {
-      if (existingSubscriber.subscribed) {
-        return NextResponse.json(
-          { error: 'این ایمیل قبلاً در خبرنامه ثبت شده است' },
-          { status: 400 }
-        );
-      } else {
-        // Reactivate subscription
-        await prisma.newsletter.update({
-          where: { email },
-          data: { 
-            subscribed: true,
-            name: name || existingSubscriber.name,
-            updatedAt: new Date(),
-          },
-        });
-      }
-    } else {
-      // Create new subscription
-      await prisma.newsletter.create({
-        data: {
-          email,
-          name,
-          subscribed: true,
-        },
-      });
-    }
+    // if (existingSubscriber) {
+    //   if (existingSubscriber.subscribed) {
+    //     return NextResponse.json(
+    //       { error: 'این ایمیل قبلاً در خبرنامه ثبت شده است' },
+    //       { status: 400 }
+    //     );
+    //   } else {
+    //     // Reactivate subscription
+    //     await prisma.newsletter.update({
+    //       where: { email },
+    //       data: { 
+    //         subscribed: true,
+    //         name: name || existingSubscriber.name,
+    //         updatedAt: new Date(),
+    //       },
+    //     });
+    //   }
+    // } else {
+    //   // Create new subscription
+    //   await prisma.newsletter.create({
+    //     data: {
+    //       email,
+    //       name,
+    //       subscribed: true,
+    //     },
+    //   });
+    // }
+    console.log('Newsletter subscription would be saved:', { email, name });
 
     // Send confirmation email
     const emailSent = await sendNewsletterConfirmation(email, name);

@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'دسترسی غیرمجاز' }, { status: 401 });
     }
 
-    const { name, bio } = await request.json();
+    const { name } = await request.json();
     const userId = (session.user as any).id;
 
     // Update user profile
@@ -19,14 +19,12 @@ export async function POST(request: Request) {
       where: { id: userId },
       data: {
         name: name || null,
-        bio: bio || null,
       },
       select: {
         id: true,
         name: true,
         email: true,
         role: true,
-        bio: true,
         createdAt: true
       }
     });

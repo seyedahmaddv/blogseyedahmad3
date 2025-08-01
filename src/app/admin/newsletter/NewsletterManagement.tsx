@@ -331,7 +331,7 @@ export default function NewsletterManagement({ subscribers, campaigns }: Newslet
                   محتوای خبرنامه
                 </label>
                 <RichTextEditor
-                  content={newCampaign.content}
+                  value={newCampaign.content}
                   onChange={(content) => setNewCampaign({ ...newCampaign, content })}
                 />
               </div>

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import NewsletterSignup from "@/components/NewsletterSignup";
-import { motion } from "framer-motion";
 
 export default function Home() {
   return (
@@ -9,34 +8,14 @@ export default function Home() {
       
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-8">
-        <motion.section 
-          className="max-w-2xl w-full text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.h2 
-            className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+        <section className="max-w-2xl w-full text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             به وبلاگ من خوش آمدید
-          </motion.h2>
-          <motion.p 
-            className="text-gray-600 mb-6 text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
+          </h2>
+          <p className="text-gray-600 mb-6 text-lg">
             اینجا می‌توانید نوشته‌های من را بخوانید، نظر دهید و با من در ارتباط باشید.
-          </motion.p>
-          <motion.div 
-            className="flex justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
+          </p>
+          <div className="flex justify-center gap-4">
             <Link 
               href="/about" 
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
@@ -49,25 +28,15 @@ export default function Home() {
             >
               نوشته‌ها
             </Link>
-          </motion.div>
-        </motion.section>
+          </div>
+        </section>
 
         {/* Newsletter Signup */}
-        <motion.section 
-          className="w-full max-w-md mb-12"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
+        <section className="w-full max-w-md mb-12">
           <NewsletterSignup />
-        </motion.section>
+        </section>
 
-        <motion.section 
-          className="w-full max-w-4xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
-        >
+        <section className="w-full max-w-4xl">
           <h3 className="text-2xl font-semibold mb-6 text-center text-gray-800">آخرین نوشته‌ها</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -87,13 +56,9 @@ export default function Home() {
                 link: "/posts/3"
               }
             ].map((post, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: (index + 10) * 0.1 }}
-                whileHover={{ y: -5 }}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-200 hover:-translate-y-1"
               >
                 <div className="p-6 flex flex-col h-full">
                   <h4 className="font-bold text-lg mb-3 text-gray-900">{post.title}</h4>
@@ -105,11 +70,11 @@ export default function Home() {
                     مشاهده →
                   </Link>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
-    </main>
+        </section>
+      </main>
       <Footer />
     </div>
   );

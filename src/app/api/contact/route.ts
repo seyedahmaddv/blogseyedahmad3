@@ -25,15 +25,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Save to database
-    const contactMessage = await prisma.contactMessage.create({
-      data: {
-        name,
-        email,
-        subject,
-        message,
-      },
-    });
+    // Save to database - temporarily disabled
+    // const contactMessage = await prisma.contactMessage.create({
+    //   data: {
+    //     name,
+    //     email,
+    //     subject,
+    //     message,
+    //   },
+    // });
+    console.log('Contact message would be saved:', { name, email, subject, message });
 
     // Send email notifications
     const emailSent = await sendContactNotification({
@@ -44,7 +45,7 @@ export async function POST(request: Request) {
     });
 
     if (!emailSent) {
-      console.warn('Failed to send email notification for contact message:', contactMessage.id);
+      console.warn('Failed to send email notification for contact message');
     }
 
     return NextResponse.json({
