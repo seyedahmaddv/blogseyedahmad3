@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import LikeButton from "@/components/LikeButton";
+import CommentSection from "@/components/CommentSection";
 
 interface Post {
   id: number;
@@ -37,8 +39,8 @@ async function getPost(id: string) {
 }
 
 export default async function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const { id } = await params;
     const post: Post = await getPost(id);
     return (
       <div className="max-w-2xl mx-auto py-8 px-4 bg-white rounded-lg shadow mt-8" dir="rtl">
@@ -59,6 +61,16 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
         </div>
         {post.excerpt && <div className="mb-4 text-gray-600 text-right italic">{post.excerpt}</div>}
         <div className="prose prose-lg prose-slate rtl text-right max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+        
+        {/* Like Button */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="flex justify-center mb-6">
+            <LikeButton postId={post.id} />
+          </div>
+        </div>
+
+        {/* Comments Section */}
+        <CommentSection postId={post.id} />
         
         <div className="mt-8 pt-6 border-t border-gray-200">
           <Link 
@@ -89,12 +101,12 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
               >
                 بازگشت به لیست پست‌ها
               </Link>
-              <button 
-                onClick={() => window.location.reload()} 
+              <Link 
+                href={`/posts/${id}`}
                 className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition"
               >
                 تلاش مجدد
-              </button>
+              </Link>
             </div>
           </div>
         </div>

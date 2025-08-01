@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import SeedButton from './SeedButton';
 
 interface Post {
   id: number;
@@ -31,6 +32,8 @@ async function getPosts() {
   }
 }
 
+
+
 export default async function PostsPage() {
   try {
     const posts: Post[] = await getPosts();
@@ -38,12 +41,15 @@ export default async function PostsPage() {
       <main className="container mx-auto p-4 min-h-screen bg-gray-50">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <h1 className="text-2xl font-bold text-right">لیست پست‌ها</h1>
-          <Link href="/posts/new" className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition">ایجاد پست جدید</Link>
+          <div className="flex gap-2">
+            <SeedButton />
+            <Link href="/posts/new" className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition">ایجاد پست جدید</Link>
+          </div>
         </div>
         {posts.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <p>هیچ پستی یافت نشد.</p>
-            <p className="mt-2 text-sm">لطفاً بعداً دوباره تلاش کنید.</p>
+            <p className="mt-2 text-sm">لطفاً دکمه پر کردن دیتابیس را بزنید.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

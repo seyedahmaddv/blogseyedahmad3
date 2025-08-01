@@ -16,7 +16,9 @@ export default function RegisterPage() {
       body: formData,
     });
     if (res.ok) {
-      router.push("/auth/signin");
+      const data = await res.json();
+      alert("ثبت‌نام با موفقیت انجام شد! حالا می‌توانید وارد شوید.");
+      router.push("/auth/signin?callbackUrl=/");
     } else {
       const data = await res.json();
       setError(data.message || "خطا در ثبت‌نام");

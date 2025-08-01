@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       name,
       email,
       password: hashed,
+      role: 'VIEWER' as any, // نقش پیش‌فرض
     },
   });
   return NextResponse.json({ message: "ثبت‌نام موفقیت‌آمیز بود" });
